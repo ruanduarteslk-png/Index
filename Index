@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Nossa Galeria</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+            background-color: black; /* Fundo preto */
+            color: white; /* Textos em branco para dar contraste */
+            margin: 0;
+            padding: 20px;
+        }
+        #login-screen {
+            margin-top: 20vh;
+        }
+        #login-screen h2 {
+            color: red; /* Palavra dica em vermelho */
+        }
+        input {
+            padding: 10px;
+            font-size: 16px;
+            border-radius: 5px;
+            border: 1px solid #ccc;
+            width: 280px; 
+            max-width: 90%;
+            margin-bottom: 10px;
+        }
+        button {
+            padding: 10px 20px;
+            font-size: 16px;
+            background-color: #e84393; /* Mantive o botão rosa, mas você pode pedir para mudar a cor se preferir */
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        #gallery-screen {
+            display: none; 
+        }
+        .gallery-grid {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 15px;
+            justify-content: center;
+            margin-top: 20px;
+        }
+        .gallery-grid img {
+            width: 300px;
+            height: 300px;
+            object-fit: cover;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(255,255,255,0.1);
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Tela de Senha -->
+    <div id="login-screen">
+        <h2>Flor</h2>
+        <input type="password" id="senha" placeholder="Digite a senha...">
+        <br>
+        <button onclick="verificarSenha()">Entrar</button>
+        <p id="erro" style="color: red; display: none;">Senha incorreta! Tente de novo. ❤️</p>
+    </div>
+
+    <!-- Tela da Galeria -->
+    <div id="gallery-screen">
+        <h2>Nossas Memórias 📸</h2>
+        <div class="gallery-grid">
+            <!-- Adicione suas fotos aqui -->
+            <img src="fotos/foto1.jpg" alt="Nós">
+            <img src="fotos/foto2.jpg" alt="Nós">
+            <img src="fotos/foto3.jpg" alt="Nós">
+        </div>
+    </div>
+
+    <script>
+        function verificarSenha() {
+            var senhaDigitada = document.getElementById("senha").value;
+            // A senha exata configurada
+            var senhaCorreta = "enamora"; 
+
+            if (senhaDigitada === senhaCorreta) {
+                document.getElementById("login-screen").style.display = "none";
+                document.getElementById("gallery-screen").style.display = "block";
+            } else {
+                document.getElementById("erro").style.display = "block";
+            }
+        }
+    </script>
+
+</body>
+</html>
