@@ -1,115 +1,412 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Galeria</title>
-    <!-- Nova fonte elegante e limpa -->
-    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@500&display=swap" rel="stylesheet">
-    
-    <style>
-        body {
-            /* Usando a nova fonte */
-            font-family: 'Playfair Display', serif; 
-            text-align: center;
-            background-color: black;
-            color: white;
-            margin: 0;
-            padding: 20px;
-        }
-        
-        #login-screen {
-            margin-top: 35vh; /* Centraliza a caixa na tela */
-        }
-        
-        /* Caixa de senha mantida elegante e discreta */
-        input {
-            padding: 10px;
-            font-size: 18px;
-            background: transparent; 
-            border: none;
-            border-bottom: 1px solid rgba(255, 255, 255, 0.5); 
-            color: white;
-            width: 250px; 
-            max-width: 90%;
-            margin-bottom: 25px;
-            text-align: center;
-            outline: none;
-            font-family: Arial, sans-serif; /* Fonte normal para os pontinhos da senha ficarem legíveis */
-        }
-        
-        /* Botão entrar discreto e minimalista */
-        button {
-            padding: 8px 25px;
-            font-size: 18px;
-            background-color: transparent;
-            color: white;
-            border: 1px solid rgba(255, 255, 255, 0.5); 
-            border-radius: 20px; 
-            cursor: pointer;
-            font-family: 'Playfair Display', serif;
-            transition: 0.3s;
-        }
-        
-        /* Efeito sutil ao passar o mouse ou clicar */
-        button:hover {
-            background-color: rgba(255, 255, 255, 0.1);
-        }
-        button:active {
-            background-color: rgba(255, 255, 255, 0.2);
-        }
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>O olhar de Sofia</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,600&family=Space+Grotesk:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --paper: #FFF8E1;
+    --ink: #1C1500;
+    --mustard: #E3A712;
+    --deep-amber: #9C6B0B;
+    --line: rgba(28, 21, 0, 0.15);
+  }
 
-        #mensagem-erro {
-            color: #ff4d4d; /* Vermelho suave para combinar com a tela preta */
-            font-size: 20px;
-            margin-top: 25px;
-            display: none; /* Escondido no começo */
-        }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
 
-        #gallery-screen {
-            display: none; 
-        }
-        
-        .gallery-grid {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 15px;
-            justify-content: center;
-            margin-top: 40px;
-        }
-        .gallery-grid img {
-            width: 300px;
-            height: 300px;
-            object-fit: cover;
-            border-radius: 10px;
-            box-shadow: 0 4px 8px rgba(255,255,255,0.1);
-        }
-    </style>
+  body {
+    background: var(--paper);
+    color: var(--ink);
+    font-family: 'Space Grotesk', sans-serif;
+    -webkit-font-smoothing: antialiased;
+    padding-bottom: 4rem;
+  }
+
+  /* --- TELA DE SENHA --- */
+  #login-screen {
+    max-width: 400px;
+    margin: 30vh auto 0;
+    padding: 0 1.5rem;
+    text-align: center;
+  }
+
+  #login-screen input {
+    width: 100%;
+    padding: 12px;
+    font-size: 1.1rem;
+    background: transparent;
+    border: none;
+    border-bottom: 2px solid var(--ink);
+    color: var(--ink);
+    text-align: center;
+    outline: none;
+    font-family: 'Space Grotesk', sans-serif;
+    margin-bottom: 1.5rem;
+  }
+
+  #login-screen button {
+    padding: 10px 30px;
+    font-size: 1rem;
+    background-color: var(--ink);
+    color: var(--paper);
+    border: none;
+    border-radius: 2px;
+    cursor: pointer;
+    font-family: 'Space Grotesk', sans-serif;
+    transition: background 0.3s;
+  }
+
+  #login-screen button:hover {
+    background-color: var(--deep-amber);
+  }
+
+  #mensagem-erro {
+    color: #c0392b;
+    font-size: 0.95rem;
+    margin-top: 1.2rem;
+    display: none;
+  }
+
+  /* --- ESTRUTURA PRINCIPAL E ÁLBUNS --- */
+  #albums-screen {
+    display: none;
+  }
+
+  header {
+    padding: 4rem 1.5rem 2.5rem;
+    text-align: center;
+    border-bottom: 1px solid var(--line);
+  }
+
+  header h1 {
+    font-family: 'Fraunces', serif;
+    font-size: clamp(2.5rem, 7vw, 4.5rem);
+    font-weight: 600;
+    letter-spacing: -0.01em;
+  }
+
+  header p {
+    margin-top: 0.5rem;
+    font-size: 0.95rem;
+    color: var(--deep-amber);
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+  }
+
+  main {
+    max-width: 920px;
+    margin: 0 auto;
+    padding: 2rem 1.5rem 4rem;
+  }
+
+  .album {
+    display: grid;
+    grid-template-columns: 220px 1fr;
+    gap: 2.5rem;
+    align-items: center;
+    padding: 2.5rem 0;
+    border-bottom: 1px solid var(--line);
+    cursor: pointer;
+    transition: opacity 0.2s;
+  }
+
+  .album:hover {
+    opacity: 0.85;
+  }
+
+  .album:last-child {
+    border-bottom: none;
+  }
+
+  .cover {
+    width: 220px;
+    height: 220px;
+    background: var(--mustard);
+    border-radius: 2px;
+    position: relative;
+    overflow: hidden;
+    flex-shrink: 0;
+  }
+
+  .cover img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+
+  .album-info .year {
+    font-size: 0.9rem;
+    color: var(--deep-amber);
+    letter-spacing: 0.02em;
+  }
+
+  .album-info h2 {
+    font-family: 'Fraunces', serif;
+    font-size: 2rem;
+    font-weight: 600;
+    margin: 0.4rem 0 0.6rem;
+  }
+
+  .album-info p {
+    font-size: 0.98rem;
+    line-height: 1.6;
+    color: rgba(28, 21, 0, 0.75);
+    max-width: 45ch;
+  }
+
+  /* --- TELA DA GALERIA INTERNA DO ÁLBUM --- */
+  .gallery-screen {
+    display: none;
+    max-width: 920px;
+    margin: 0 auto;
+    padding: 2rem 1.5rem 4rem;
+  }
+
+  .back-btn {
+    background: transparent;
+    border: none;
+    font-family: 'Space Grotesk', sans-serif;
+    font-size: 1rem;
+    color: var(--deep-amber);
+    cursor: pointer;
+    margin-bottom: 2rem;
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+  }
+
+  .back-btn:hover {
+    color: var(--ink);
+  }
+
+  .gallery-grid {
+    display: grid;
+    grid-template-columns: repeat(6, 1fr);
+    grid-auto-rows: 110px;
+    gap: 10px;
+  }
+
+  .gallery-grid img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    border-radius: 2px;
+    box-shadow: 0 4px 12px rgba(28, 21, 0, 0.08);
+    cursor: pointer;
+    transition: transform 0.3s ease;
+    display: block;
+  }
+
+  .gallery-grid img:hover {
+    transform: scale(1.03);
+  }
+
+  /* Tamanhos do mosaico */
+  .gallery-grid .g-big {
+    grid-column: span 2;
+    grid-row: span 2;
+  }
+
+  .gallery-grid .g-wide {
+    grid-column: span 2;
+  }
+
+  .gallery-grid .g-tall {
+    grid-row: span 2;
+  }
+
+  /* --- TELA CHEIA (LIGHTBOX) --- */
+  #lightbox {
+    display: none;
+    position: fixed;
+    z-index: 1000;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(28, 21, 0, 0.9);
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+  }
+
+  #lightbox img {
+    max-width: 90%;
+    max-height: 80vh;
+    border-radius: 2px;
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.3);
+  }
+
+  #fechar-btn {
+    position: absolute;
+    top: 20px;
+    right: 30px;
+    color: var(--paper);
+    font-size: 40px;
+    font-weight: bold;
+    cursor: pointer;
+    font-family: Arial, sans-serif;
+  }
+
+  @media (max-width: 640px) {
+    .album {
+      grid-template-columns: 1fr;
+      text-align: center;
+    }
+    .cover {
+      width: 100%;
+      max-width: 280px;
+      height: 280px;
+      margin: 0 auto;
+    }
+    .album-info p {
+      max-width: none;
+    }
+
+    .gallery-grid {
+      grid-template-columns: repeat(3, 1fr);
+      grid-auto-rows: 100px;
+      gap: 6px;
+    }
+
+    .gallery-grid img {
+      border-radius: 1px;
+    }
+
+    .back-btn {
+      margin-bottom: 1.25rem;
+    }
+
+    .gallery-screen {
+      padding: 1.5rem 1rem 3rem;
+    }
+  }
+
+  @media (min-width: 641px) and (max-width: 900px) {
+    .gallery-grid {
+      grid-template-columns: repeat(4, 1fr);
+      grid-auto-rows: 100px;
+    }
+  }
+</style>
 </head>
 <body>
 
-    <!-- Tela de Senha (Minimalista) -->
+    <!-- 1. TELA DE SENHA -->
     <div id="login-screen">
         <input type="password" id="senha" placeholder="Digite a senha">
         <br>
         <button onclick="verificarSenha()">Entrar</button>
-        
-        <!-- Onde a dica vai aparecer dinamicamente -->
         <p id="mensagem-erro"></p>
     </div>
 
-    <!-- Tela da Galeria (Direto nas fotos) -->
-    <div id="gallery-screen">
+    <!-- 2. TELA DE SELEÇÃO DE ÁLBUNS -->
+    <div id="albums-screen">
+        <header>
+          <h1>O olhar de Sofia</h1>
+          <p>coleção de momentos</p>
+        </header>
+
+        <main>
+          <!-- Álbum 1 -->
+          <div class="album" onclick="abrirAlbum('album1')">
+            <div class="cover">
+              <img src="fotos/capa1.gif" alt="Capa Álbum 1">
+            </div>
+            <div class="album-info">
+              <span class="year">Álbum I</span>
+              <h2>Rio Grande - RS</h2>
+              <p>Memórias e registros guardados com carinho deste lugar especial.</p>
+            </div>
+          </div>
+
+          <!-- Álbum 2 -->
+          <div class="album" onclick="abrirAlbum('album2')">
+            <div class="cover">
+              <img src="fotos/capa2.gif" alt="Capa Álbum 2">
+            </div>
+            <div class="album-info">
+              <span class="year">Álbum II</span>
+              <h2>Título do Álbum Dois</h2>
+              <p>Uma seleção de momentos marcantes e inesquecíveis.</p>
+            </div>
+          </div>
+
+          <!-- Álbum 3 -->
+          <div class="album" onclick="abrirAlbum('album3')">
+            <div class="cover">
+              <img src="fotos/capa3.gif" alt="Capa Álbum 3">
+            </div>
+            <div class="album-info">
+              <span class="year">Álbum III</span>
+              <h2>Título do Álbum Três</h2>
+              <p>Detalhes e fragmentos da nossa história juntos.</p>
+            </div>
+          </div>
+        </main>
+    </div>
+
+    <!-- 3. ÁLBUM 1 (20 Fotos: foto1 até foto20)[cite: 2] -->
+    <div id="album1" class="gallery-screen">
+        <button class="back-btn" onclick="voltarParaAlbuns()">← Voltar aos álbuns</button>
         <div class="gallery-grid">
-            <!-- Suas fotos entram aqui -->
-            <img src="fotos/foto1.jpg" alt="Foto">
-            <img src="fotos/foto2.jpg" alt="Foto">
-            <img src="fotos/foto3.jpg" alt="Foto">
+            <img class="g-big" src="fotos/foto1.jpg" alt="Foto 1" onclick="abrirFoto(this.src)">
+            <img src="fotos/foto2.jpg" alt="Foto 2" onclick="abrirFoto(this.src)">
+            <img src="fotos/foto3.jpg" alt="Foto 3" onclick="abrirFoto(this.src)">
+            <img class="g-tall" src="fotos/foto4.jpg" alt="Foto 4" onclick="abrirFoto(this.src)">
+            <img src="fotos/foto5.jpg" alt="Foto 5" onclick="abrirFoto(this.src)">
+            <img class="g-wide" src="fotos/foto6.jpg" alt="Foto 6" onclick="abrirFoto(this.src)">
+            <img src="fotos/foto7.jpg" alt="Foto 7" onclick="abrirFoto(this.src)">
+            <img src="fotos/foto8.jpg" alt="Foto 8" onclick="abrirFoto(this.src)">
+            <img class="g-tall" src="fotos/foto9.jpg" alt="Foto 9" onclick="abrirFoto(this.src)">
+            <img class="g-big" src="fotos/foto10.jpg" alt="Foto 10" onclick="abrirFoto(this.src)">
+            <img src="fotos/foto11.jpg" alt="Foto 11" onclick="abrirFoto(this.src)">
+            <img src="fotos/foto12.jpg" alt="Foto 12" onclick="abrirFoto(this.src)">
+            <img class="g-wide" src="fotos/foto13.jpg" alt="Foto 13" onclick="abrirFoto(this.src)">
+            <img src="fotos/foto14.jpg" alt="Foto 14" onclick="abrirFoto(this.src)">
+            <img src="fotos/foto15.jpg" alt="Foto 15" onclick="abrirFoto(this.src)">
+            <img class="g-tall" src="fotos/foto16.jpg" alt="Foto 16" onclick="abrirFoto(this.src)">
+            <img src="fotos/foto17.jpg" alt="Foto 17" onclick="abrirFoto(this.src)">
+            <img src="fotos/foto18.jpg" alt="Foto 18" onclick="abrirFoto(this.src)">
+            <img src="fotos/foto19.jpg" alt="Foto 19" onclick="abrirFoto(this.src)">
+            <img src="fotos/foto20.jpg" alt="Foto 20" onclick="abrirFoto(this.src)">
         </div>
     </div>
 
+    <!-- 4. ÁLBUM 2 (3 Fotos: foto21 até foto23)[cite: 2] -->
+    <div id="album2" class="gallery-screen">
+        <button class="back-btn" onclick="voltarParaAlbuns()">← Voltar aos álbuns</button>
+        <div class="gallery-grid">
+            <img class="g-big" src="fotos/foto21.jpg" alt="Foto 21" onclick="abrirFoto(this.src)">
+            <img src="fotos/foto22.jpg" alt="Foto 22" onclick="abrirFoto(this.src)">
+            <img src="fotos/foto23.jpg" alt="Foto 23" onclick="abrirFoto(this.src)">
+        </div>
+    </div>
+
+    <!-- 5. ÁLBUM 3 (7 Fotos: foto24 até foto30)[cite: 2] -->
+    <div id="album3" class="gallery-screen">
+        <button class="back-btn" onclick="voltarParaAlbuns()">← Voltar aos álbuns</button>
+        <div class="gallery-grid">
+            <img class="g-big" src="fotos/foto24.jpg" alt="Foto 24" onclick="abrirFoto(this.src)">
+            <img src="fotos/foto25.jpg" alt="Foto 25" onclick="abrirFoto(this.src)">
+            <img class="g-wide" src="fotos/foto26.jpg" alt="Foto 26" onclick="abrirFoto(this.src)">
+            <img src="fotos/foto27.jpg" alt="Foto 27" onclick="abrirFoto(this.src)">
+            <img src="fotos/foto28.jpg" alt="Foto 28" onclick="abrirFoto(this.src)">
+            <img class="g-tall" src="fotos/foto29.jpg" alt="Foto 29" onclick="abrirFoto(this.src)">
+            <img src="fotos/foto30.jpg" alt="Foto 30" onclick="abrirFoto(this.src)">
+        </div>
+    </div>
+
+    <!-- TELA CHEIA (LIGHTBOX) -->
+    <div id="lightbox" onclick="fecharFoto()">
+        <span id="fechar-btn">&times;</span>
+        <img id="img-ampliada" src="" alt="Foto em destaque">
+    </div>
+
     <script>
-        // Variável que vai contar quantas vezes a senha foi errada
         var tentativasErro = 0; 
 
         function verificarSenha() {
@@ -118,15 +415,12 @@
             var mensagem = document.getElementById("mensagem-erro");
 
             if (senhaDigitada === senhaCorreta) {
-                // Se acertar, mostra a galeria
                 document.getElementById("login-screen").style.display = "none";
-                document.getElementById("gallery-screen").style.display = "block";
+                document.getElementById("albums-screen").style.display = "block";
             } else {
-                // Se errar, aumenta o número de tentativas
                 tentativasErro++; 
-                mensagem.style.display = "block"; // Mostra o texto
+                mensagem.style.display = "block"; 
 
-                // Lógica das dicas
                 if (tentativasErro < 2) {
                     mensagem.innerHTML = "Senha incorreta. Tente novamente...";
                 } else if (tentativasErro >= 2 && tentativasErro < 4) {
@@ -136,10 +430,34 @@
                 } else if (tentativasErro >= 6) {
                     mensagem.innerHTML = "Dica: carta";
                 }
-
-                // Apaga o que ela digitou na caixa para facilitar a nova tentativa
                 document.getElementById("senha").value = "";
             }
+        }
+
+        function abrirAlbum(idAlbum) {
+            document.getElementById("albums-screen").style.display = "none";
+            document.getElementById(idAlbum).style.display = "block";
+            window.scrollTo(0, 0);
+        }
+
+        function voltarParaAlbuns() {
+            var albuns = document.getElementsByClassName("gallery-screen");
+            for (var i = 0; i < albuns.length; i++) {
+                albuns[i].style.display = "none";
+            }
+            document.getElementById("albums-screen").style.display = "block";
+            window.scrollTo(0, 0);
+        }
+
+        function abrirFoto(origemDaImagem) {
+            var lightbox = document.getElementById("lightbox");
+            var imgAmpliada = document.getElementById("img-ampliada");
+            lightbox.style.display = "flex"; 
+            imgAmpliada.src = origemDaImagem; 
+        }
+
+        function fecharFoto() {
+            document.getElementById("lightbox").style.display = "none"; 
         }
     </script>
 
